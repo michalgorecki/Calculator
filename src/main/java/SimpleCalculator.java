@@ -35,7 +35,11 @@ public class SimpleCalculator {
                 stack.push(currentWord);
             }
         }else if(currentWord.equals("=")){
-            calculate();
+            try {
+                calculate();
+            }catch(EmptyStackException e){
+                System.out.println("calculate() failed - not enough operands");
+            }
         }else if(currentWord.equals("CE")){
             if(!stack.isEmpty()){
                 stack.pop();
@@ -45,38 +49,49 @@ public class SimpleCalculator {
         }
     }
 
-    public String getStackPeek() throws EmptyStackException{
+    public String getCurrentResult(){
+        try{
+            if(Pattern.matches(OPERATOR_REGEX,stack.peek())){
+                int stackSize = stack.size();
+                return stack.elementAt(stackSize-2);
+            }
             return stack.peek();
+        }catch(EmptyStackException e) {
+            return "Empty stack!";
+        }
     }
 
 
     private void calculate() {
+        try {
+            Double op1 = Double.parseDouble(stack.pop());
+            String operator = stack.pop();
+            Double op2 = Double.parseDouble(stack.pop());
+            Double result = null;
 
-        Double op1 = Double.parseDouble(stack.pop());
-        String operator = stack.pop();
-        Double op2 = Double.parseDouble(stack.pop());
-        Double result = null;
-
-        switch (operator) {
-            case "+":
-                result = op1 + op2;
-            break;
-            case "-":
-                result = op2 - op1;
-            break;
-            case "*":
-                result = op1 * op2;
-            break;
-            case "/":
-                if (op2 != 0) {
-                    result = op2 / op1;
-                }
-                break;
-            default:
-                System.out.println("Invalid division!");
-                return;
+            switch (operator) {
+                case "+":
+                    result = op1 + op2;
+                    break;
+                case "-":
+                    result = op2 - op1;
+                    break;
+                case "*":
+                    result = op1 * op2;
+                    break;
+                case "/":
+                    if (op2 != 0) {
+                        result = op2 / op1;
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid division!");
+                    return;
+            }
+            stack.push(String.valueOf(result));
+        }catch(EmptyStackException e){
+            System.out.println("Cannot calculate - no operands on stack.");
         }
-        stack.push(String.valueOf(result));
     }
 
 }

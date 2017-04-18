@@ -9,18 +9,15 @@ public class Main {
     public static void main(String[] args) {
         SimpleCalculator calculator = new SimpleCalculator();
         Scanner scanner = new Scanner(System.in);
-        String currentWord = "";
+        String currentWord;
 
         System.out.println("calculator");
         currentWord = scanner.nextLine();
         while(!currentWord.equals("x")){
             if(!currentWord.isEmpty()){
-                try {
                     calculator.calculationStep(currentWord);
-                    System.out.println("Top of stack: " + calculator.getStackPeek());
-                }catch(EmptyStackException e){
-                    System.out.println("empty.");
-                }
+                    System.out.println("Current result: " + calculator.getCurrentResult());
+
             }
             System.out.println("Next word:");
             currentWord = scanner.nextLine();

@@ -14,7 +14,6 @@ public class InfixExpressionEvaluatorTest {
     public Double result;
 
     InfixExpressionEvaluator infixEvaluator = new InfixExpressionEvaluator();
-    List<String> currentExpression;
 
     public InfixExpressionEvaluatorTest(String expression, Double result){
         this.expression = expression;
